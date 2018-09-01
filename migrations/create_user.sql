@@ -1,7 +1,20 @@
-CREATE TABLE users (
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50),
-    password VARCHAR(255),
-    created DATETIME DEFAULT NULL,
-    modified DATETIME DEFAULT NULL
-);
+CREATE TABLE `users` (
+ `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+ `email` varchar(255) NOT NULL,
+ `password` varchar(255) DEFAULT NULL,
+ `disp_name` varchar(255) NOT NULL,
+ `catch_phrase` varchar(255) NOT NULL,
+ `description` text,
+ `request_condition` text,
+ `price` int(11) DEFAULT '0',
+ `gender` int(11) DEFAULT '0',
+ `birth` date DEFAULT NULL,
+ `is_deleted` int(11) DEFAULT '0',
+ `deleted` datetime DEFAULT NULL,
+ `created` datetime DEFAULT NULL,
+ `modified` datetime DEFAULT NULL,
+ PRIMARY KEY (`id`),
+ INDEX idx_user_1(`email`),
+ INDEX idx_user_2(`disp_name`),
+ INDEX idx_user_3(`catch_phrase`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
