@@ -48,6 +48,8 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </div>
     </nav>
     <?= $this->Flash->render() ?>
+    <div style="display: none;" id="x_call_key" data-value="<?= env('CALL_KEY', ''); ?>">
+    </div>
     <div class="container clearfix">
         <?= $this->fetch('content') ?>
     </div>
