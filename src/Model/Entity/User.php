@@ -25,6 +25,7 @@ class User extends Entity
      * @var array
      */
     protected $_accessible = [
+        'id' => false
         'username' => true,
         'password' => true,
         'created' => true,
@@ -39,4 +40,11 @@ class User extends Entity
     protected $_hidden = [
         'password'
     ];
+
+    protected function _setPassword($password)
+    {
+        if (strlen($password) > 0) {
+            return (new DefaultPasswordHasher)->hash($password);
+        }
+    }
 }

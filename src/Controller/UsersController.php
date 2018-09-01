@@ -12,6 +12,31 @@ use App\Controller\AppController;
  */
 class UsersController extends AppController
 {
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        // ユーザーの登録とログアウトを許可します。
+        // allow のリストに "login" アクションを追加しないでください。
+        // そうすると AuthComponent の正常な機能に問題が発生します。
+        $this->Auth->allow(['add', 'logout']);
+    }
+
+    public function login()
+    {
+        if ($this->request->is('post')) {
+            $user = $this->Auth->identify();
+            if ($user) {
+                $this->Auth->setUser($user);
+                return $this->redirect($this->Auth->redirectUrl());
+            }
+            $this->Flash->error(__('Invalid username or password, try again'));
+        }
+    }
+
+    public function logout()
+    {
+        return $this->redirect($this->Auth->logout());
+    }
 
     /**
      * Index method
