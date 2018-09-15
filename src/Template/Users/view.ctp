@@ -33,8 +33,8 @@
         <?= $this->Form->create() ?>
             <fieldset>
                 <legend><?= __('オファー') ?></legend>
-                <?= $this->Form->control('offer_message') ?>
-                <?= $this->Form->control('user_message') ?>
+                <?= $this->Form->control('offer_message', ['label' => '希望時間帯']) ?>
+                <?= $this->Form->control('user_message', ['label' => 'その他伝達事項など']) ?>
             </fieldset>
         <?= $this->Form->button(__('この人にオファー')); ?>
         <?= $this->Form->end() ?>
