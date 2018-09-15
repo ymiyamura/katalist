@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
 
 /**
  * Offers Controller
@@ -91,7 +92,19 @@ class OffersController extends AppController
         if ($this->request->is('post')) {
             $offer = $this->Offers->patchEntity($offer, $this->request->getData());
 
+            $this->Users = TableRegistry::getTableLocator()->get('Users');
+            $to_user = $this->Users->find()
+                ->where(['id' => $offer['to_user_id']])
+                ->select(['price'])
+                ->first();
+
+            if (empty($to_user)) {
+                $this->Flash->error(__('The offer could not be saved. Please, try again.'));
+                return $this->redirect(['controller' => 'Users', 'action' => 'view', $offer['to_user_id']]);;
+            }
+
             $offer['from_user_id'] = $this->Auth->user('id');
+            $offer['price'] = $to_user->price;
             $offer['status'] = 1; // offered
             if ($this->Offers->save($offer)) {
                 $this->Flash->success(__('The offer has been saved.'));
