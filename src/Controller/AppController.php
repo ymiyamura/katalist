@@ -69,4 +69,12 @@ class AppController extends Controller
          */
         //$this->loadComponent('Security');
     }
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $is_login = (bool)$this->Auth->user();
+        $this->set(compact('is_login'));
+    }
+
 }
