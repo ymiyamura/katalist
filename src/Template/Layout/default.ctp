@@ -45,6 +45,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 <?php if ($is_login): ?>
                     <li><?= $this->Html->link('my offer', ['controller' => 'Offers', 'action' => 'index']) ?></li>
                     <li><?= $this->Html->link('received offer', ['controller' => 'Offers', 'action' => 'offered']) ?></li>
+                    <li><?= $this->Html->link('logout', ['controller' => 'Users', 'action' => 'logout']) ?></li>
                 <?php else: ?>
                     <li><?= $this->Html->link('sign up', ['controller' => 'Users', 'action' => 'add']) ?></li>
                     <li><?= $this->Html->link('log in', ['controller' => 'Users', 'action' => 'login']) ?></li>
