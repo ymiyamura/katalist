@@ -53,6 +53,18 @@ class OffersTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
+        $this->belongsTo('ToUsers', [
+            'className' => 'Users',
+            'foreignKey' => 'to_user_id',
+            'bindingKey' => 'id',
+        ]);
+
+        $this->belongsTo('FromUsers', [
+            'className' => 'Users',
+            'foreignKey' => 'from_user_id',
+            'bindingKey' => 'id',
+        ]);
+
         $this->addBehavior('Timestamp');
     }
 

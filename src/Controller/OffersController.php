@@ -20,11 +20,6 @@ class OffersController extends AppController
      */
     public function index()
     {
-        $this->Offers->belongsTo('ToUsers', [
-            'className' => 'Users',
-            'foreignKey' => 'to_user_id',
-            'bindingKey' => 'id',
-        ]);
         $this->paginate = [
             'contain' => ['ToUsers'],
             'conditions' => [
@@ -39,11 +34,6 @@ class OffersController extends AppController
 
     public function offered()
     {
-        $this->Offers->belongsTo('FromUsers', [
-            'className' => 'Users',
-            'foreignKey' => 'from_user_id',
-            'bindingKey' => 'id',
-        ]);
         $this->paginate = [
             'contain' => ['FromUsers'],
             'conditions' => [
@@ -54,6 +44,15 @@ class OffersController extends AppController
 
         $statuses = $this->Offers->getDispStatuses();
         $this->set(compact('offers', 'statuses'));
+    }
+
+    public function offered_view($id = null)
+    {
+        $offer = $this->Offers->get($id, [
+            'contain' => [],
+        ]);
+
+        $this->set('offer', $offer);
     }
 
     /**
