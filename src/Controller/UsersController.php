@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
+use Cake\ORM\TableRegistry;
 
 /**
  * Users Controller
@@ -64,7 +65,9 @@ class UsersController extends AppController
             'contain' => []
         ]);
 
-        $this->set('user', $user);
+        $this->Offers = TableRegistry::getTableLocator()->get('Offers');
+        $offer = $this->Offers->newEntity();
+        $this->set(compact('user', 'offer'));
     }
 
     /**

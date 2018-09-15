@@ -2,6 +2,7 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\User $user
+ * @var \App\Model\Entity\Offer $offer
  */
  $this->assign('title', 'カタリスト詳細');
 ?>
@@ -30,11 +31,18 @@
         </table>
     </div>
     <div class="">
-        <?= $this->Form->create() ?>
+        <?= $this->Form->create($offer, [
+                'method' => 'post',
+                'url' => [
+                    "controller" => "Offers",
+                    "action" => "add",
+                ],
+            ]) ?>
             <fieldset>
                 <legend><?= __('オファー') ?></legend>
-                <?= $this->Form->control('offer_message', ['label' => '希望時間帯']) ?>
-                <?= $this->Form->control('user_message', ['label' => 'その他伝達事項など']) ?>
+                <?= $this->Form->control('request_message', ['label' => '希望時間帯']) ?>
+                <?= $this->Form->control('free_message', ['label' => 'その他伝達事項など']) ?>
+                <?= $this->Form->hidden('to_user_id', ['value' => $user->id]) ?>
             </fieldset>
         <?= $this->Form->button(__('この人にオファー')); ?>
         <?= $this->Form->end() ?>
