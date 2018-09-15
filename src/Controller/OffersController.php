@@ -37,6 +37,25 @@ class OffersController extends AppController
         $this->set(compact('offers', 'statuses'));
     }
 
+    public function offered()
+    {
+        $this->Offers->belongsTo('FromUsers', [
+            'className' => 'Users',
+            'foreignKey' => 'from_user_id',
+            'bindingKey' => 'id',
+        ]);
+        $this->paginate = [
+            'contain' => ['FromUsers'],
+            'conditions' => [
+                'to_user_id' => $this->Auth->user('id'),
+            ]
+        ];
+        $offers = $this->paginate($this->Offers);
+
+        $statuses = $this->Offers->getDispStatuses();
+        $this->set(compact('offers', 'statuses'));
+    }
+
     /**
      * View method
      *
