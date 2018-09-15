@@ -1,16 +1,3 @@
-offers
-id
-from_user_id
-to_user_id
-request_message
-free_message
-status (offered, accepted, called, cancelled)
-accepted
-cancelled
-called
-created
-modified
-
 CREATE TABLE `offers` (
  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
  `from_user_id` int(11) NOT NULL,
@@ -18,6 +5,7 @@ CREATE TABLE `offers` (
  `request_message` text,
  `free_message` text,
  `status` int(11) DEFAULT '0',
+ `price` int(11) DEFAULT '0',
  `accepted` datetime DEFAULT NULL,
  `cancelled` datetime DEFAULT NULL,
  `called` datetime DEFAULT NULL,

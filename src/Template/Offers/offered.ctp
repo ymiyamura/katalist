@@ -22,7 +22,7 @@
                 <td><?= $statuses[$offer->status] ?></td>
                 <td><?= $offer->created ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('見る'), ['action' => 'view', $offer->id]) ?>
+                    <?= $this->Html->link(__('見る'), ['action' => 'offered_view', $offer->id]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

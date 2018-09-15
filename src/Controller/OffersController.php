@@ -46,13 +46,22 @@ class OffersController extends AppController
         $this->set(compact('offers', 'statuses'));
     }
 
-    public function offered_view($id = null)
+    public function offeredView($id = null)
     {
-        $offer = $this->Offers->get($id, [
-            'contain' => [],
-        ]);
+        $offer = $this->Offers->find()
+            ->where([
+                'Offers.id' => $id,
+                'Offers.to_user_id' => $this->Auth->user('id'),
+            ])
+            ->contain(['FromUsers', 'ToUsers'])
+            ->first();
 
-        $this->set('offer', $offer);
+        if (empty($offer)) {
+            return $this->redirect(['controller' => 'Offers', 'action' => 'index']);
+        }
+
+        $statuses = $this->Offers->getDispStatuses();
+        $this->set(compact('offer', 'statuses'));
     }
 
     /**
