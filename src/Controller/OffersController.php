@@ -159,4 +159,24 @@ class OffersController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function accept($id)
+    {
+        if (!$this->Offers->accept($id, $this->Auth->user('id'))) {
+            $this->Flash->error('処理に失敗しました');
+            return $this->redirect(['action' => 'offered']);
+        }
+        $this->Flash->success('オファーを承認しました');
+        return $this->redirect(['action' => 'offered_view', $id]);
+    }
+
+    public function cancel($id)
+    {
+        if (!$this->Offers->cancel($id, $this->Auth->user('id'))) {
+            $this->Flash->error('処理に失敗しました');
+            return $this->redirect(['action' => 'offered']);
+        }
+        $this->Flash->success('オファーを拒否しました');
+        return $this->redirect(['action' => 'offered_view', $id]);
+    }
 }

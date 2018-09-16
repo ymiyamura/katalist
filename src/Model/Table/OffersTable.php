@@ -25,18 +25,16 @@ use Cake\Validation\Validator;
  */
 class OffersTable extends Table
 {
-    private $statuses = [
-        1 => 'offered',
-        2 => 'accepted',
-        3 => 'called',
-        4 => 'cancelled',
-    ];
+    const STATUS_OFFERED = 1;
+    const STATUS_ACCEPTED = 2;
+    const STATUS_CALLED = 3;
+    const STATUS_CANCELLED = 4;
 
     private $disp_statuses = [
-        1 => 'オファー中',
-        2 => '承諾済み',
-        3 => '完了',
-        4 => 'キャンセル',
+        self::STATUS_OFFERED => 'オファー中',
+        self::STATUS_ACCEPTED => '承認済み',
+        self::STATUS_CALLED => '完了',
+        self::STATUS_CANCELLED => 'キャンセル',
     ];
 
     /**
@@ -119,13 +117,74 @@ class OffersTable extends Table
         return $rules;
     }
 
-    public function getStatuses()
-    {
-        return $this->statuses;
-    }
-
     public function getDispStatuses()
     {
         return $this->disp_statuses;
+    }
+
+    public function accept($id, $accept_user_id)
+    {
+        $offer = $this->find()
+            ->where([
+                'id' => $id,
+                'to_user_id' => $accept_user_id,
+            ])
+            ->first();
+        if (empty($offer)) {
+            return false;
+        }
+        $data = [
+             'status' => self::STATUS_ACCEPTED,
+             'accepted' => date('Y-m-d H:i:s'),
+        ];
+        $offer = $this->patchEntity($offer, $data);
+        if (!$this->save($offer)) {
+            return false;
+        }
+        return true;
+    }
+
+    public function call($id, $accept_user_id)
+    {
+        $offer = $this->find()
+            ->where([
+                'id' => $id,
+                'to_user_id' => $accept_user_id,
+            ])
+            ->first();
+        if (empty($offer)) {
+            return false;
+        }
+        $data = [
+             'status' => self::STATUS_CALLED,
+             'called' => date('Y-m-d H:i:s'),
+        ];
+        $offer = $this->patchEntity($offer, $data);
+        if (!$this->save($offer)) {
+            return false;
+        }
+        return true;
+    }
+
+    public function cancel($id, $accept_user_id)
+    {
+        $offer = $this->find()
+            ->where([
+                'id' => $id,
+                'to_user_id' => $accept_user_id,
+            ])
+            ->first();
+        if (empty($offer)) {
+            return false;
+        }
+        $data = [
+             'status' => self::STATUS_CANCELLED,
+             'cancelled' => date('Y-m-d H:i:s'),
+        ];
+        $offer = $this->patchEntity($offer, $data);
+        if (!$this->save($offer)) {
+            return false;
+        }
+        return true;
     }
 }

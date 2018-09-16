@@ -39,8 +39,8 @@
     </div>
     <div class="">
         <?php if ($offer->status === 1): ?>
-            <button type="button" name="button">承認する</button>
-            <button type="button" name="button">拒否する</button>
+            <button type="button" name="button"><?= $this->Html->link('承認する', ['action' => 'accept', $offer->id], ['confirm' => 'オファーを承認します。よろしいですか？']) ?></button>
+            <button type="button" name="button"><?= $this->Html->link('拒否する', ['action' => 'cancel', $offer->id], ['confirm' => 'オファーを拒否します。よろしいですか？']) ?></button>
         <?php elseif ($offer->status === 2): ?>
             <button type="button" name="button">電話をかける</button>
         <?php endif; ?>
