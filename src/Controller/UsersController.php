@@ -100,9 +100,15 @@ class UsersController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit()
     {
-        $user = $this->Users->get($id, [
+        $user_id = $this->Auth->user('id');
+        // 自分のユーザのみ編集できる
+        if (empty($user_id)) {
+            return $this->redirect(['action' => 'index']);
+        }
+
+        $user = $this->Users->get($user_id, [
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
