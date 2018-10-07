@@ -28,6 +28,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
     <?= $this->Html->css('base.css') ?>
     <?= $this->Html->css('style.css') ?>
+    <?= $this->Html->css('call.css') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
@@ -55,10 +56,16 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </div>
     </nav>
     <?= $this->Flash->render() ?>
-    <div style="display: none;" id="x_call_key" data-value="<?= env('CALL_KEY', ''); ?>">
     </div>
     <div class="container clearfix">
         <?= $this->fetch('content') ?>
+        <?php if ($is_login): ?>
+            <div style="display: none;" id="x_call_key" data-value="<?= env('CALL_KEY', ''); ?>">
+            <div style="display: none;" id="x_user_peer_id" data-value="<?= $user_peer_id ?>">
+            <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+            <script type="text/javascript" src="https://cdn.webrtc.ecl.ntt.com/skyway-latest.js"></script>
+            <script type="text/javascript" src="/js/call.js"></script>
+        <?php endif; ?>
     </div>
     <footer>
     </footer>

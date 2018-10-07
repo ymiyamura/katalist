@@ -4,10 +4,10 @@ let localStream = null;
 let peer = null;
 let existingCall = null;
 
-navigator.mediaDevices.getUserMedia({video: true, audio: true})
+navigator.mediaDevices.getUserMedia({audio: true, audio: true})
 .then(function (stream) {
     // Success
-    $('#my-video').get(0).srcObject = stream;
+    $('#my-audio').get(0).srcObject = stream;
     localStream = stream;
 }).catch(function (error) {
     // Error
@@ -16,7 +16,8 @@ navigator.mediaDevices.getUserMedia({video: true, audio: true})
 });
 
 peer = new Peer({
-    key: $('x_call_key').attr('data-value'),
+    key: document.getElementById('x_call_key').dataset.value,
+    id: document.getElementById('x_user_peer_id').dataset.value,
     debug: 3
 });
 
@@ -57,25 +58,25 @@ function setupCallEventHandlers(call){
     existingCall = call;
 
 	call.on('stream', function(stream){
-        addVideo(call,stream);
+        addAudio(call,stream);
         setupEndCallUI();
         $('#their-id').text(call.remoteId);
     });
 
 	call.on('close', function(){
-        removeVideo(call.remoteId);
+        removeAudio(call.remoteId);
         setupMakeCallUI();
     });
 }
 
-// videoの作成
-function addVideo(call,stream){
-    $('#their-video').get(0).srcObject = stream;
+// audioの作成
+function addAudio(call,stream){
+    $('#their-audio').get(0).srcObject = stream;
 }
 
- // videoの削除
-function removeVideo(peerId){
-    $('#their-video').get(0).srcObject = undefined;
+ // audioの削除
+function removeAudio(peerId){
+    $('#their-audio').get(0).srcObject = undefined;
 }
 
 function setupMakeCallUI(){

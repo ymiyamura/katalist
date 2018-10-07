@@ -74,6 +74,10 @@ class AppController extends Controller
         parent::beforeFilter($event);
         $is_login = (bool)$this->Auth->user();
         $this->set(compact('is_login'));
+        if ($is_login) {
+            $user_peer_id = $this->Auth->user('id');
+            $this->set(compact('user_peer_id'));
+        }
     }
 
 }

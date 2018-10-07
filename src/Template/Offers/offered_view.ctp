@@ -43,6 +43,14 @@
             <button type="button" name="button"><?= $this->Html->link('拒否する', ['action' => 'cancel', $offer->id], ['confirm' => 'オファーを拒否します。よろしいですか？']) ?></button>
         <?php elseif ($offer->status === 2): ?>
             <button type="button" name="button">電話をかける</button>
+            <form id="make-call" class="pure-form">
+                <input type="text" placeholder="Call user id..." id="callto-id" value="<?= $offer->from_user->id; ?>">
+                <button href="#" class="pure-button pure-button-success" type="submit">Call</button>
+            </form>
+            <form id="end-call" class="pure-form">
+                <p>Currently in call with <span id="their-id">...</span></p>
+                <button href="#" class="pure-button pure-button-success" type="submit">End Call</button>
+            </form>
         <?php endif; ?>
     </div>
 </div>
