@@ -37,12 +37,13 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <nav class="top-bar expanded" data-topbar role="navigation">
         <ul class="title-area large-3 medium-4 columns">
             <li class="name">
-                <h1><a href=""><?= $this->fetch('title') ?></a></h1>
+                <h1><?= $this->Html->link('katali.st', ['controller' => 'Users', 'action' => 'index']); ?></h1>
             </li>
         </ul>
         <div class="top-bar-section">
             <ul class="right">
                 <?php if ($is_login): ?>
+                    <li><?= $this->Html->link('profile', ['controller' => 'Users', 'action' => 'edit']) ?></li>
                     <li><?= $this->Html->link('my offer', ['controller' => 'Offers', 'action' => 'index']) ?></li>
                     <li><?= $this->Html->link('received offer', ['controller' => 'Offers', 'action' => 'offered']) ?></li>
                     <li><?= $this->Html->link('logout', ['controller' => 'Users', 'action' => 'logout']) ?></li>
