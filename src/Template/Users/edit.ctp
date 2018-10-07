@@ -18,6 +18,7 @@
             echo $this->Form->control('price');
             echo $this->Form->control('gender');
             echo $this->Form->control('birth');
+            echo $this->Form->control('is_katalist', ['label' => 'カタリストとして電話を受ける']);
         ?>
         <?php
             if (empty($user->image1)) {

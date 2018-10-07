@@ -78,15 +78,24 @@ class UsersController extends AppController
      */
     public function add()
     {
+        if ($this->Auth->user()) {
+            $this->Auth->logout();
+            return $this->redirect(['action' => 'add']);
+        }
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
 
-            $user['disp_name'] = ''; // TODO
             $user['catch_phrase'] = ''; // TODO
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
+                // ログイン処理
+                $user = $this->Auth->identify();
+                if ($user) {
+                    $this->Auth->setUser($user);
+                    return $this->redirect($this->Auth->redirectUrl());
+                }
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
