@@ -17,6 +17,7 @@
             <tr>
                 <td>
                     <div class="">
+                        <p><?= $this->Html->image('/files/Users/image1/' . $user->id . '/' . h($user->image1), ['alt' => h($user->image1), '']); ?></p>
                         <p><?= h($user->catch_phrase) ?></p>
                         <p><?= h($user->disp_name) ?></p>
                         <p><?= $this->Html->link(__('詳しく見る'), ['action' => 'view', $user->id]) ?></p>

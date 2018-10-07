@@ -14,6 +14,9 @@
                 <td><?= h($user->catch_phrase) ?></td>
             </tr>
             <tr>
+                <td><p class="text-center"><?= $this->Html->image('/files/Users/image1/' . $user->id . '/' . h($user->image1), ['alt' => h($user->image1)]); ?></p></td>
+            </tr>
+            <tr>
                 <td>
                     <p class="text-left">◆語れる内容◆</p>
                     <p class="text-left"><?= h($user->description) ?></p>
