@@ -64,7 +64,8 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             <div style="display: none;" id="x_user_peer_id" data-value="<?= $user_peer_id ?>">
             <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
             <script type="text/javascript" src="https://cdn.webrtc.ecl.ntt.com/skyway-latest.js"></script>
-            <script type="text/javascript" src="/js/call.js"></script>
+            <!-- <script type="text/javascript" src="/js/call.js"></script> -->
+            <?= $this->Html->script('call.js'); ?>
         <?php endif; ?>
     </div>
     <footer>
