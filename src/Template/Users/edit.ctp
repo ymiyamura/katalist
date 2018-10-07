@@ -17,7 +17,7 @@
     </ul>
 </nav>
 <div class="users form large-9 medium-8 columns content">
-    <?= $this->Form->create($user) ?>
+    <?= $this->Form->create($user, ['type' => 'file']) ?>
     <fieldset>
         <legend><?= __('Edit User') ?></legend>
         <?php
@@ -31,6 +31,17 @@
             echo $this->Form->control('gender');
             echo $this->Form->control('birth');
         ?>
+        <?php
+            if (empty($user->image1)) {
+                echo $this->Form->control('image1', ['type' => 'file']);
+            } else {
+                echo $this->Html->image('/files/Users/image1/' . $user->id . '/' . h($user->image1), ['alt' => h($user->image1)]);
+                echo '<br>別の写真をアップロード';
+                echo $this->Form->control('image1', ['type' => 'file']);
+
+            }
+        ?>
+        <?php //debug($user); ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>

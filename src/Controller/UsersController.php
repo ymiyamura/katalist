@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
+use Cake\Filesystem\File;
 
 /**
  * Users Controller
@@ -112,11 +113,12 @@ class UsersController extends AppController
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
+            $this->log($this->request->getData());
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'edit']);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
@@ -141,5 +143,38 @@ class UsersController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function imageDelete()
+    {
+        $user_id = $this->Auth->user('id');
+        // 自分のユーザのみ編集できる
+        if (empty($user_id)) {
+            return $this->redirect(['action' => 'index']);
+        }
+        $user = $this->Users->get($user_id, [
+            'contain' => []
+        ]);
+        if (empty($user->image1)) {
+            $this->Flash->error(__('No image.'));
+            return $this->redirect(['action' => 'edit']);
+        }
+        $user->image1 = '';
+        $user->dir1 = '';
+        $this->log($user->_accessible);
+        if (!$this->Users->save($user)) {
+            $this->Flash->error(__('The image could not be deleted. Please, try again.'));
+            return $this->redirect(['action' => 'edit']);
+        }
+
+        // ファイル削除
+        $file = new File(WWW_ROOT . 'files' . DS . 'Users' . DS . 'image1' . DS . $user->id . DS . $user->image1);
+        $this->log($file);
+        // $this->log($file->exists());
+        if ($file->exists()) {
+            $file->delete();
+        }
+        $this->Flash->success(__('image deleted'));
+        return $this->redirect(['action' => 'edit']);
     }
 }

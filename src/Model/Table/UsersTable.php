@@ -38,6 +38,15 @@ class UsersTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+
+        $this->addBehavior('Josegonzalez/Upload.Upload', [
+            'image1' => [
+                'path' => 'webroot{DS}files{DS}{model}{DS}{field}{DS}{primaryKey}',
+                'fields' => [
+                    'dir' => 'dir1',
+                ]
+            ]
+        ]);
     }
 
     /**
@@ -61,6 +70,9 @@ class UsersTable extends Table
             ->scalar('password')
             ->maxLength('password', 255)
             ->allowEmpty('password');
+
+        $validator
+            ->allowEmpty('image1');
 
         return $validator;
     }
