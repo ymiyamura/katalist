@@ -15,11 +15,13 @@ navigator.mediaDevices.getUserMedia({audio: true, audio: true})
     return;
 });
 
-peer = new Peer({
-    key: document.getElementById('x_call_key').dataset.value,
-    id: document.getElementById('x_user_peer_id').dataset.value,
-    debug: 3
-});
+peer = new Peer(
+    document.getElementById('x_user_peer_id').dataset.value,
+    {
+        key: document.getElementById('x_call_key').dataset.value,
+        debug: 3
+    }
+);
 
 peer.on('open', function(){
     $('#my-id').text(peer.id);
