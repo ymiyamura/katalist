@@ -48,6 +48,11 @@ class UsersController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'conditions' => [
+                'is_katalist' => true,
+            ]
+        ];
         $users = $this->paginate($this->Users);
 
         $this->set(compact('users'));
