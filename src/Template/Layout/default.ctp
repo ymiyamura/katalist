@@ -60,6 +60,10 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <div class="container clearfix">
         <?= $this->fetch('content') ?>
         <?php if ($is_login): ?>
+            <div class="pure-u-2-3" id="audio-container">
+                <audio id="their-audio" autoplay></audio>
+                <audio id="my-audio" muted="true" autoplay></audio>
+            </div>
             <div style="display: none;" id="x_call_key" data-value="<?= env('CALL_KEY', ''); ?>">
             <div style="display: none;" id="x_user_peer_id" data-value="<?= $user_peer_id ?>">
             <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
