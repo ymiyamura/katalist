@@ -75,8 +75,14 @@ class AppController extends Controller
         $is_login = (bool)$this->Auth->user();
         $this->set(compact('is_login'));
         if ($is_login) {
-            $user_peer_id = $this->Auth->user('id');
-            $this->set(compact('user_peer_id'));
+            $user = $this->Auth->user();
+            $login_user = [
+                'id' => $user['id'],
+                'disp_name' => $user['disp_name'] ?? '',
+                'email' => $user['email'] ?? '',
+                'user_peer_id' => $user['id'],
+            ];
+            $this->set(compact('login_user'));
         }
     }
 

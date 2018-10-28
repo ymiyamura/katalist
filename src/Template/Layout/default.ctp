@@ -44,6 +44,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <div class="top-bar-section">
             <ul class="right">
                 <?php if ($is_login): ?>
+                    <li><?= h($login_user['disp_name']) ?>さん</li>
                     <li><?= $this->Html->link('profile', ['controller' => 'Users', 'action' => 'edit']) ?></li>
                     <li><?= $this->Html->link('my offer', ['controller' => 'Offers', 'action' => 'index']) ?></li>
                     <li><?= $this->Html->link('received offer', ['controller' => 'Offers', 'action' => 'offered']) ?></li>
@@ -65,7 +66,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 <audio id="my-audio" muted="true" autoplay></audio>
             </div>
             <div style="display: none;" id="x_call_key" data-value="<?= env('CALL_KEY', ''); ?>">
-            <div style="display: none;" id="x_user_peer_id" data-value="<?= $user_peer_id ?>">
+            <div style="display: none;" id="x_user_peer_id" data-value="<?= $login_user['user_peer_id'] ?>">
             <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
             <script type="text/javascript" src="https://cdn.webrtc.ecl.ntt.com/skyway-latest.js"></script>
             <!-- <script type="text/javascript" src="/js/call.js"></script> -->
