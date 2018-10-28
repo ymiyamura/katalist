@@ -44,6 +44,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <div class="top-bar-section">
             <ul class="right">
                 <?php if ($is_login): ?>
+                    <li><?= h($login_user['disp_name']) ?>さん</li>
                     <li><?= $this->Html->link('profile', ['controller' => 'Users', 'action' => 'edit']) ?></li>
                     <li><?= $this->Html->link('my offer', ['controller' => 'Offers', 'action' => 'index']) ?></li>
                     <li><?= $this->Html->link('received offer', ['controller' => 'Offers', 'action' => 'offered']) ?></li>
