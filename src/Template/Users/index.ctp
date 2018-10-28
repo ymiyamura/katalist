@@ -6,6 +6,13 @@
 ?>
 <div class="users index columns content">
     <h3><?= __('Users') ?></h3>
+    <div class="">
+        <?= $this->Form->create(null, ['type' => 'get']) ?>
+        <?= $this->Form->text('search', ['value' => h($search_text) ?? '', 'placeholder' => '例：人事']) ?>
+        <?= $this->Form->submit('検索') ?>
+        <?= $this->Html->link('検索条件をクリア', ['action' => 'index']) ?>
+        <?= $this->Form->end() ?>
+    </div>
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
