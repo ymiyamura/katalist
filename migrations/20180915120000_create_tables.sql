@@ -19,7 +19,7 @@ CREATE TABLE `offers` (
 CREATE TABLE `user_peers` (
  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
  `user_id` int(11) NOT NULL,
- `peer_id` int(11) NOT NULL,
+ `peer_id` varchar(16) NOT NULL,
  `created` datetime DEFAULT NULL,
  `modified` datetime DEFAULT NULL,
  PRIMARY KEY (`id`),

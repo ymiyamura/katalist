@@ -5,12 +5,10 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\ORM\TableRegistry;
 
 /**
  * UserPeers Model
- *
- * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
- * @property \App\Model\Table\PeersTable|\Cake\ORM\Association\BelongsTo $Peers
  *
  * @method \App\Model\Entity\UserPeer get($primaryKey, $options = [])
  * @method \App\Model\Entity\UserPeer newEntity($data = null, array $options = [])
@@ -41,15 +39,6 @@ class UserPeersTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
-
-        $this->belongsTo('Users', [
-            'foreignKey' => 'user_id',
-            'joinType' => 'INNER'
-        ]);
-        $this->belongsTo('Peers', [
-            'foreignKey' => 'peer_id',
-            'joinType' => 'INNER'
-        ]);
     }
 
     /**
@@ -76,9 +65,58 @@ class UserPeersTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['user_id'], 'Users'));
-        $rules->add($rules->existsIn(['peer_id'], 'Peers'));
-
         return $rules;
+    }
+
+    public function updatePeerId($user_id)
+    {
+        $Users = TableRegistry::get('Users');
+        $user = $Users->find()
+            ->where(['id' => $user_id])
+            ->first();
+
+        // userのvalidation
+        if (empty($user)) {
+            return false;
+        }
+
+        $peer_id = $this->createPeerId();
+        if (!$peer_id) {
+            return false;
+        }
+        $user_peer = $this->find()->where(['user_id' => $user_id])->first();
+        if (empty($user_peer)) {
+            $user_peer = $this->newEntity();
+            $user_peer->user_id = $user_id;
+            $user_peer->peer_id = $peer_id;
+        } else {
+            $user_peer->peer_id = $peer_id;
+        }
+        try {
+            return $this->save($user_peer);
+        } catch (\Exception $e) {
+            $this->log([
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            return false;
+        }
+    }
+
+    public function createPeerId()
+    {
+        $success = false;
+        $length = 16;
+        for ($i=0; $i < 3; $i++) {
+            $tmp = substr(base_convert(md5(uniqid()), 16, 36), 0, $length);
+            if (!$this->exists(['peer_id' => $tmp])) {
+                $success = true;
+                break;
+            }
+        }
+        if ($success) {
+            return $tmp;
+        }
+        return false;
     }
 }
