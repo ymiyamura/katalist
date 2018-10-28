@@ -54,12 +54,22 @@ class UsersController extends AppController
         if ($this->Auth->user('id') > 0) {
             $conditions['id !='] = $this->Auth->user('id');
         }
+
+        $search_text = '';
+        if ($this->request->query('search')) {
+            // 重い検索なので暫定
+            $tmp['disp_name LIKE'] = '%' . $this->request->query('search') . '%';
+            $tmp['catch_phrase LIKE'] = '%' . $this->request->query('search') . '%';
+            $tmp['description LIKE'] = '%' . $this->request->query('search') . '%';
+            $conditions['OR'] = $tmp;
+            $search_text = $this->request->query('search');
+        }
         $this->paginate = [
             'conditions' => $conditions,
         ];
         $users = $this->paginate($this->Users);
 
-        $this->set(compact('users'));
+        $this->set(compact('users', 'search_text'));
     }
 
     /**
