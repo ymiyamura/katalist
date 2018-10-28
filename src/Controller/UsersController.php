@@ -48,10 +48,14 @@ class UsersController extends AppController
      */
     public function index()
     {
+        $conditions = [
+            'is_katalist' => true,
+        ];
+        if ($this->Auth->user('id') > 0) {
+            $conditions['id !='] = $this->Auth->user('id');
+        }
         $this->paginate = [
-            'conditions' => [
-                'is_katalist' => true,
-            ]
+            'conditions' => $conditions,
         ];
         $users = $this->paginate($this->Users);
 
