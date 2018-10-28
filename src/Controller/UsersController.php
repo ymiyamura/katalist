@@ -56,13 +56,13 @@ class UsersController extends AppController
         }
 
         $search_text = '';
-        if ($this->request->query('search')) {
+        if ($this->request->getQuery('search')) {
             // 重い検索なので暫定
-            $tmp['disp_name LIKE'] = '%' . $this->request->query('search') . '%';
-            $tmp['catch_phrase LIKE'] = '%' . $this->request->query('search') . '%';
-            $tmp['description LIKE'] = '%' . $this->request->query('search') . '%';
+            $tmp['disp_name LIKE'] = '%' . $this->request->getQuery('search') . '%';
+            $tmp['catch_phrase LIKE'] = '%' . $this->request->getQuery('search') . '%';
+            $tmp['description LIKE'] = '%' . $this->request->getQuery('search') . '%';
             $conditions['OR'] = $tmp;
-            $search_text = $this->request->query('search');
+            $search_text = $this->request->getQuery('search');
         }
         $this->paginate = [
             'conditions' => $conditions,
