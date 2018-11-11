@@ -67,6 +67,7 @@ class AppController extends Controller
          * see https://book.cakephp.org/3.0/en/controllers/components/security.html
          */
         //$this->loadComponent('Security');
+        $this->loadComponent('Security', ['blackHoleCallback' => 'forceSSL']);
     }
 
     public function beforeFilter(Event $event)
@@ -84,6 +85,31 @@ class AppController extends Controller
             ];
             $this->set(compact('login_user'));
         }
+
+        if ($this->shouldForceSsl()) {
+            $this->Security->requireSecure();
+        }
+
+    }
+
+    public function forceSSL($error = '', SecurityException $exception = null)
+    {
+        if ($exception instanceof SecurityException && $exception->getType() === 'secure') {
+            return $this->redirect('https://' . env('SERVER_NAME') . Router::url($this->request->getRequestTarget()));
+        }
+
+        throw $exception;
+    }
+
+    /**
+     * 本番、確認環境はssl強制する
+     */
+    private function shouldForceSsl()
+    {
+        if (env('SERVER_NAME') === 'katalist.sakura.ne.jp') {
+            return true;
+        }
+        return false;
     }
 
 }
