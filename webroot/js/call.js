@@ -4,16 +4,18 @@ let localStream = null;
 let peer = null;
 let existingCall = null;
 
-navigator.mediaDevices.getUserMedia({audio: true, audio: true})
-.then(function (stream) {
-    // Success
-    $('#my-audio').get(0).srcObject = stream;
-    localStream = stream;
-}).catch(function (error) {
-    // Error
-    console.error('mediaDevice.getUserMedia() error:', error);
-    return;
-});
+function prepare(){
+    navigator.mediaDevices.getUserMedia({audio: true, audio: true})
+    .then(function (stream) {
+        // Success
+        $('#my-audio').get(0).srcObject = stream;
+        localStream = stream;
+    }).catch(function (error) {
+        // Error
+        console.error('mediaDevice.getUserMedia() error:', error);
+        return;
+    });
+}
 
 peer = new Peer(
     document.getElementById('x_user_peer_id').dataset.value,
@@ -37,6 +39,7 @@ peer.on('disconnected', function(){
 // 発信
 $('#make-call').submit(function(e){
     e.preventDefault();
+    prepare();
     const call = peer.call($('#callto-id').val(), localStream);
     setupCallEventHandlers(call);
 });
@@ -48,6 +51,7 @@ $('#end-call').click(function(){
 
 // 着信
 peer.on('call', function(call){
+    prepare();
     call.answer(localStream);
     setupCallEventHandlers(call);
 });
